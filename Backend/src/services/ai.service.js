@@ -38,7 +38,7 @@ function wait(ms) {
 }
 
 async function generateContentWithRetry(request) {
-    const maxAttempts = 2;
+    const maxAttempts = 3;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {
@@ -49,13 +49,14 @@ async function generateContentWithRetry(request) {
             const retryable =
                 error?.status === 503 ||
                 message.includes('"code":503') ||
-                message.includes("fetch failed");
+                message.includes("fetch failed") ||
+                error?.cause?.code === "UND_ERR_HEADERS_TIMEOUT";
 
             if (!retryable || attempt === maxAttempts) {
                 throw error;
             }
 
-            const delay = 1500 * (2 ** (attempt - 1));
+            const delay = 5000 * (2 ** (attempt - 1));
 
             console.warn(
                 `Gemini request failed. Retrying in ${delay / 1000}s ` +
