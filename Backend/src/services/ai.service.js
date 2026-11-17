@@ -80,7 +80,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
     try {
         const response = await generateContentWithRetry({
-            model: "gemini-3.8-flash",
+            model: "gemini-3.7-flash",
             contents: prompt,
             config: {
                 responseMimeType: "application/json",
@@ -175,7 +175,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
 try {
     const response = await generateContentWithRetry({
-        model: "gemini-3.8-flash",
+        model: "gemini-3.7-flash",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
